@@ -1,7 +1,7 @@
 {
   "name": "respelling",
-  "version": "0.2.0",
-  "description": "IPA → target-language orthography phonetic respelling. Hear what you actually sounded like.",
+  "version": "0.3.0",
+  "description": "Phonetic respelling that spells foreign words like English words. No hyphens, no caps — looks like English, reads as an approximation of the foreign word.",
   "type": "module",
   "main": "src/index.js",
   "exports": {

@@ -1,8 +1,20 @@
 # respelling
 
-> IPA → target-language orthography phonetic respelling. Hear what you actually sounded like.
+> Phonetic respelling that spells foreign words like English words. No hyphens, no caps — looks like English, reads as an approximation of the foreign word.
 
 JS port of [chunky-metro/respelling](https://github.com/chunky-metro/respelling) (Ruby). Two implementations, one canonical data shape, parity-tested.
+
+## What's novel (v0.3)
+
+The dictionary-style transliteration `mah-NYAH-nah` has existed forever — every Merriam-Webster entry has one. **That's not what this is.** This library writes `manyana` — a respelling that *looks like an English word* an English reader naturally pronounces (and which approximates the Spanish). No hyphens marking syllable boundaries, no uppercase marking stress. English orthography does the work.
+
+| Spanish     | Dictionary style       | This library (v0.3) |
+| :---------- | :--------------------- | :------------------ |
+| Buenos días | `BWAY-nohs DEE-ahs`    | `bwaynose deeyus`   |
+| Mañana      | `mah-NYAH-nah`         | `manyana`           |
+| Gracias     | `GRAH-syahs`           | `grasseeus`         |
+| Por favor   | `por fah-VOHR`         | `porfavore`         |
+| Hola        | `OH-lah`               | `ohla`              |
 
 ## Install
 
@@ -88,15 +100,24 @@ Schema (v2):
 
 The converter is a longest-match-first walker, language-agnostic. All language-specific knowledge lives in the JSON.
 
-## Spanish→English style rules (v0.2)
+## Two layers (v0.3)
 
-- `/a/` → `ah`,  `/e/` → `ay`,  `/i/` → `ee`,  `/o/` → `oh`,  `/u/` → `oo`
-- `/ð/` → `d`  (not `th`)
-- `/x/` (jota) → `h`
-- `/ɲ/` (ñ) → `ny`
-- `/ʝ/`, `/ʎ/` (y, ll) → `y`  (yeísmo)
-- `/ɾ/` (tap) → `r`
-- `/r/` (trill) → `rr`
+**Hand-curated corpus** (`src/data/spanish-en-corpus.json`) — 50 phrases respelled with the novel English-word-shape style. This is the v1 craft-curated layer — what the parrot-lab demo serves.
+
+**Algorithmic IPA fallback** (`src/data/spanish-en.json`) — IPA→respelling table for arbitrary inputs not in the corpus. Still emits the dictionary style (`BWAY-nohs DEE-ahs`) — a v0.4 task is to retrain this layer to emit the corpus style by default.
+
+## Spanish→English style rules
+
+**Novel English-word-shape (v0.3, hand-curated):**
+- No hyphens, no uppercase. Single English-looking word per Spanish word.
+- Standard English vowel orthography: `ee` for /i/, `oh` for /o/, `ay` for /e/, `oo` for /u/, `ah`/`a` for /a/.
+- `manyana` not `mah-NYAH-nah`. `bwaynose` not `BWAY-nohs`. `grasseeus` not `GRAH-syahs`.
+- Where a real English word approximates the sound, prefer it (e.g., `boy` for "voy", `say` not `seh` for "sé").
+- Capitalization comes from sentence-initial / proper-noun rules, NOT from stress.
+
+**Algorithmic v0.2 (still in IPA fallback table):**
+- `/a/`→`ah`, `/e/`→`ay`, `/i/`→`ee`, `/o/`→`oh`, `/u/`→`oo`
+- `/ð/`→`d`, `/x/`→`h`, `/ɲ/`→`ny`, `/ʝ/ʎ/`→`y`, `/ɾ/`→`r`, `/r/`→`rr`
 - Stressed syllable → uppercase; syllables joined with `-`
 
 ## Tests
