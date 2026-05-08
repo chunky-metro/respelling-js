@@ -1,0 +1,41 @@
+{
+  "name": "respelling",
+  "version": "0.2.0",
+  "description": "IPA → target-language orthography phonetic respelling. Hear what you actually sounded like.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./spanish": "./src/spanish.js"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    "README.md",
+    "LICENSE"
+  ],
+  "bin": {
+    "respell": "bin/respell.js"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.js"
+  },
+  "keywords": [
+    "ipa",
+    "phonetics",
+    "respelling",
+    "pronunciation",
+    "spanish",
+    "language-learning"
+  ],
+  "author": "Matt Culpepper, Vox",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chunky-metro/respelling-js.git"
+  },
+  "homepage": "https://github.com/chunky-metro/respelling-js#readme",
+  "engines": {
+    "node": ">=18"
+  }
+}
