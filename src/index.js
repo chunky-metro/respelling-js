@@ -40,7 +40,7 @@ export function respell({ ipa, source = 'es', target = 'en' }) {
 //   const out = await respellViaLLM({ phrase: 'Estoy bien', source: 'es', target: 'en' });
 //   // → 'estoy beeayn'
 //
-// Requires OPENROUTER_API_KEY in env (or pass apiKey). Uses google/gemma-3-27b-it
+// Requires OPENROUTER_API_KEY in env (or pass apiKey). Uses google/gemma-4-26b-a4b-it
 // by default — small, fast, follows the few-shot orthography rules well.
 const FEWSHOT_ES_EN = [
   ['Hola',         'ohla'],
@@ -62,7 +62,7 @@ export async function respellViaLLM({
   phrase,
   source = 'es',
   target = 'en',
-  model = 'google/gemma-3-27b-it',
+  model = 'google/gemma-4-26b-a4b-it',
   apiKey = (typeof process !== 'undefined' ? process.env.OPENROUTER_API_KEY : undefined),
   endpoint = 'https://openrouter.ai/api/v1/chat/completions',
   temperature = 0.2,

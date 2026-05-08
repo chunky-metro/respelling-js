@@ -117,10 +117,10 @@ await respellViaLLM({ phrase: 'Me llamo Carlos' });
 
 // Pass api key explicitly if not in env:
 await respellViaLLM({ phrase: 'Tengo hambre', apiKey: '...' });
-// Defaults: source='es', target='en', model='google/gemma-3-27b-it'
+// Defaults: source='es', target='en', model='google/gemma-4-26b-a4b-it'
 ```
 
-Requires `OPENROUTER_API_KEY` in env. Uses `google/gemma-3-27b-it` by default — small, fast, follows the few-shot orthography rules well. Cost is fractions of a cent per phrase.
+Requires `OPENROUTER_API_KEY` in env. Uses `google/gemma-4-26b-a4b-it` by default — small, fast, follows the few-shot orthography rules well. Cost is fractions of a cent per phrase.
 
 **3. Algorithmic IPA fallback** (`src/data/spanish-en.json`) — static IPA→respelling table. Currently emits dictionary style (`BWAY-nohs DEE-ahs`) — kept as a deterministic fallback when LLM is unavailable.
 
