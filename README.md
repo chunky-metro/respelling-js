@@ -100,11 +100,29 @@ Schema (v2):
 
 The converter is a longest-match-first walker, language-agnostic. All language-specific knowledge lives in the JSON.
 
-## Two layers (v0.3)
+## Three layers (v0.3)
 
-**Hand-curated corpus** (`src/data/spanish-en-corpus.json`) — 50 phrases respelled with the novel English-word-shape style. This is the v1 craft-curated layer — what the parrot-lab demo serves.
+**1. Hand-curated corpus** (`src/data/spanish-en-corpus.json`) — 50 phrases respelled with the novel English-word-shape style. The v1 craft-curated layer — what the parrot-lab demo serves.
 
-**Algorithmic IPA fallback** (`src/data/spanish-en.json`) — IPA→respelling table for arbitrary inputs not in the corpus. Still emits the dictionary style (`BWAY-nohs DEE-ahs`) — a v0.4 task is to retrain this layer to emit the corpus style by default.
+**2. LLM-respelling for ANY phrase** — `respellViaLLM({ phrase, source, target })` — calls Gemma3-27b on OpenRouter with a few-shot prompt anchored on the corpus style. Works on phrases that aren't in the corpus.
+
+```js
+import { respellViaLLM } from 'respelling';
+
+await respellViaLLM({ phrase: 'Estoy bien' });
+// → 'estoy byen'
+
+await respellViaLLM({ phrase: 'Me llamo Carlos' });
+// → 'may yaamo carlos'
+
+// Pass api key explicitly if not in env:
+await respellViaLLM({ phrase: 'Tengo hambre', apiKey: '...' });
+// Defaults: source='es', target='en', model='google/gemma-3-27b-it'
+```
+
+Requires `OPENROUTER_API_KEY` in env. Uses `google/gemma-3-27b-it` by default — small, fast, follows the few-shot orthography rules well. Cost is fractions of a cent per phrase.
+
+**3. Algorithmic IPA fallback** (`src/data/spanish-en.json`) — static IPA→respelling table. Currently emits dictionary style (`BWAY-nohs DEE-ahs`) — kept as a deterministic fallback when LLM is unavailable.
 
 ## Spanish→English style rules
 
