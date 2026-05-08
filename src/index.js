@@ -46,16 +46,16 @@ const FEWSHOT_ES_EN = [
   ['Hola',         'ohla'],
   ['mañana',       'manyana'],
   ['buenos días',  'bwaynose deeyus'],
-  ['gracias',      'grasseeus'],
+  ['gracias',      'grassious'],
   ['por favor',    'porfavore'],
   ['adiós',        'ahdyose'],
-  ['hasta luego',  'asta lwaygo'],
+  ['hasta luego',  'asta lawaygo'],
   ['mucho gusto',  'moocho goosto'],
 ];
 
 function buildPrompt({ phrase, source, target, examples }) {
   const ex = examples.map(([a, b]) => `- "${a}" → "${b}"`).join('\n');
-  return `Respell the ${source} phrase using ${target} orthography conventions so a native ${target} reader, reading naturally with no special instructions, produces an approximation of the source-language pronunciation.\n\nNO hyphens. NO capitalized syllables. NO transliteration markers. Output should look like a plausible ${target} word.\n\nExamples:\n${ex}\n\nRespell: "${phrase}"\n\nOutput ONLY the respelling, nothing else. No quotes, no explanation.`;
+  return `Respell the ${source} phrase using ${target} orthography conventions so a native ${target} reader, reading naturally with no special instructions, produces an approximation of the source-language pronunciation.\n\nPrinciples:\n1. Drop silent letters from the source (e.g. Spanish silent H — "Hasta" → "asta") so the target reader doesn't misvoice them.\n2. Use natural ${target} orthography combinations — not transliteration markers.\n3. For sound clusters with no single ${target}-word analog, fuse fragments of multiple ${target} words. Example: Spanish "lwe" has no English equivalent, so "luego" → "lawaygo" fuses "law" + "way" + "go".\n4. When a real ${target} word sounds and spells close to the source word, base the respelling on that real word with a minor twist. Example: Spanish "Gracias" → "grassious" (real English "gracious" + extra s, reads "GRASS-yus" ≈ "GRAH-syahs").\n\nNO hyphens. NO capitalized syllables. NO transliteration markers. Output should look like a plausible ${target} word.\n\nExamples:\n${ex}\n\nRespell: "${phrase}"\n\nOutput ONLY the respelling, nothing else. No quotes, no explanation.`;
 }
 
 export async function respellViaLLM({

@@ -133,6 +133,14 @@ Requires `OPENROUTER_API_KEY` in env. Uses `google/gemma-4-26b-a4b-it` by defaul
 - Where a real English word approximates the sound, prefer it (e.g., `boy` for "voy", `say` not `seh` for "sé").
 - Capitalization comes from sentence-initial / proper-noun rules, NOT from stress.
 
+**Four guiding principles (v0.3.2):**
+1. **Drop silent letters from the source.** Spanish silent H is the canonical case — "Hasta" → `asta`. An English reader who sees "Hasta" pronounces the H; dropping it removes the misvoicing.
+2. **Use natural English orthography combinations** — never transliteration markers (no schwa, no IPA, no diacritics).
+3. **For sound clusters with no single English-word analog, fuse fragments of multiple English words.** Spanish "luego" has the cluster "lwe" with no clean English-word match — `lawaygo` fuses `law` + `way` + `go`, three English-word fragments an English reader naturally reads in sequence.
+4. **Real-English-word base.** When a foreign word sounds and spells close to a real English word, base the respelling on that English word with a minor twist. Spanish "Gracias" → `grassious` (real English `gracious` + extra `s`, reads "GRASS-yus" ≈ Spanish "GRAH-syahs").
+
+So "Hasta luego" → `asta lawaygo`, not `asta lwaygo` (lwa is not English) and not `ahsta lwehgo` (transliteration markers). And "Gracias" → `grassious`, not `grasseeus` (the `ee-us` tail is awkward).
+
 **Algorithmic v0.2 (still in IPA fallback table):**
 - `/a/`→`ah`, `/e/`→`ay`, `/i/`→`ee`, `/o/`→`oh`, `/u/`→`oo`
 - `/ð/`→`d`, `/x/`→`h`, `/ɲ/`→`ny`, `/ʝ/ʎ/`→`y`, `/ɾ/`→`r`, `/r/`→`rr`
